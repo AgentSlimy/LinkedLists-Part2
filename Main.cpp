@@ -1,7 +1,7 @@
 //Author: Nathan Zou
 //Second part of Linked Lists using Node.o and Node.h from Oria W
-//Done with the help of Chris Zou and Stefan Ene
-//Status: Work In Progress
+//Done with the help of Chris Zou, Stefan Ene, and Kyle Zhou
+//Status: Completed, Last modified 1/29/22
 //Date: 1/30/22
 
 #include <iostream>
@@ -16,6 +16,7 @@ using namespace std;
 void ADD(Node*& head, Node* prev, Student* student);
 void PRINT(Node* head);
 void AVERAGE(Node* head, int counter);
+void DELETE(Node*& head, Node* current, Node* prev, int ID);
 
 int main() {
     bool running = true;
@@ -62,9 +63,14 @@ int main() {
             PRINT(head);
         }
         else if (strcmp(input, "Delete") == 0 || strcmp(input, "DELETE") == 0) { //If input is delete
-            cout << "Delete" << endl;
-            //nodeCount--;
-            //cout << "Number of Nodes: " << nodeCount << endl;
+            int ID;
+            nodeCount--;
+            cout << "What is the ID you want to delete?" << endl;
+            cin >> ID;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            DELETE(head, head, NULL, ID);
+            cout << "Number of Nodes: " << nodeCount << endl;
         }
         else if (strcmp(input, "Average") == 0 || strcmp(input, "AVERAGE") == 0) { //If input is average
             AVERAGE(head, nodeCount);
@@ -146,16 +152,36 @@ void PRINT(Node* head) {
 void AVERAGE(Node* head, int nodeCount) {
     Node* current = head;
     float total = 0;
-    if (head == NULL) {
+    if (head == NULL) { //No nodes in list
         cout << endl << "Cannot average 0 students GPA\'s, add students first." << endl;
         return;
     }
     else {
-        total += *current->getStudent()->getGPA();
-        while (current->getNext() != NULL) {
+        total += *current->getStudent()->getGPA(); //Start with first node/student
+        while (current->getNext() != NULL) { //Keep adding GPAs
             total += *current->getNext()->getStudent()->getGPA();
             current = current->getNext();
         }
     }
     cout << endl << "Average GPA: " << fixed << setprecision(2) << (total / nodeCount) << endl;
+}
+
+//Delete function, help from Kyle Zhou and Chris Zou
+void DELETE(Node* &head, Node* current, Node* prev, int ID) {
+    if (head == NULL) {
+        return;
+    }
+    if (*current->getStudent()->getID() == ID) {
+        if (prev == NULL) {
+            head = current->getNext();
+        }
+        else {
+            prev->setNext(current->getNext());
+        }
+        delete current;
+        return;
+    }
+    if (current->getNext() != NULL) {
+        DELETE(head, current->getNext(), current, ID);
+    }
 }
