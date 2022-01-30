@@ -12,10 +12,7 @@ Student::Student() {
 }
 
 Student::~Student() { //Destructor
-	delete& firstName;
-	delete& lastName;
-	delete& ID;
-	delete& GPA;
+	
 }
 
 //Getters
