@@ -1,3 +1,6 @@
+//Author: Nathan Zou
+//Part of Linked Lists 2
+
 #include <iostream>
 #include <cstring>
 #include "Student.h"
@@ -8,27 +11,28 @@ Student::Student() {
 
 }
 
-Student::~Student() {
-  delete &firstName;
-  delete &lastName;
-  delete &ID;
-  delete &GPA;
+Student::~Student() { //Destructor
+	delete& firstName;
+	delete& lastName;
+	delete& ID;
+	delete& GPA;
 }
 
+//Getters
 char* Student::getFirstName() {
-  return firstName;
+	return firstName;
 }
 
 char* Student::getLastName() {
-  return lastName;
+	return lastName;
 }
 
 int* Student::getID() {
-  return &ID;
+	return &ID;
 }
 
 float* Student::getGPA() {
-  return &GPA;
+	return &GPA;
 }
 
 void Student::setInfo() {
