@@ -1,8 +1,8 @@
 //Author: Nathan Zou
 //Second part of Linked Lists using Node.o and Node.h from Oria W
-//Done with the help of Chris Zou, Stefan Ene, and Kyle Zhou
-//Status: Completed, Last modified 1/29/22
-//Date: 1/30/22
+//Done with the help of Chris Zou, Kyle Zhou, Jeffrey Teh and Jayden Huang
+//Status: Completed, Last modified 1/31/22
+//Due date: 1/30/22
 
 #include <iostream>
 #include <cstring>
@@ -14,8 +14,8 @@ using namespace std;
 
 //Functions
 void ADD(Node*& head, Node* prev, Student* student);
-void PRINT(Node* head);
-void AVERAGE(Node* head, int counter);
+void PRINT(Node* next);
+void AVERAGE(Node* head, float currentSum, int nodeCount);
 void DELETE(Node*& head, Node* current, Node* prev, int ID);
 
 int main() {
@@ -60,7 +60,12 @@ int main() {
             cout << "Number of Nodes: " << nodeCount << endl;
         }
         else if (strcmp(input, "Print") == 0 || strcmp(input, "PRINT") == 0) { //If input is print
-            PRINT(head);
+            if (head == NULL) {
+                cout << endl << "List is empty, try adding some students first." << endl;
+            }
+            else {
+                PRINT(head);
+            }
         }
         else if (strcmp(input, "Delete") == 0 || strcmp(input, "DELETE") == 0) { //If input is delete
             int ID;
@@ -73,7 +78,13 @@ int main() {
             cout << "Number of Nodes: " << nodeCount << endl;
         }
         else if (strcmp(input, "Average") == 0 || strcmp(input, "AVERAGE") == 0) { //If input is average
-            AVERAGE(head, nodeCount);
+            float currentSum = 0;
+            if (head == NULL) {
+                cout << "Cannot average GPA\'s of 0 students, add students first." << endl;
+            }
+            else {
+                AVERAGE(head, currentSum, nodeCount);
+            }
         }
         else if (strcmp(input, "Quit") == 0 || strcmp(input, "QUIT") == 0) { //If input is quit
             running = false;
@@ -129,41 +140,23 @@ void ADD(Node* &head, Node* prev, Student* student) {
     }
 }
 
-//Print function
-void PRINT(Node* head) {
-    Node* currentNode = head;
-    if (currentNode == NULL) {
-        cout << endl << "List is empty, try adding some students first." << endl;
-    }
-    else {
-        cout << endl << "Printing students:" << endl;
-        while (currentNode != NULL) {
-            cout << currentNode->getStudent()->getFirstName() << " ";
-            cout << currentNode->getStudent()->getLastName() << ", ";
-            cout << "ID: " << *currentNode->getStudent()->getID() << ", ";
-            cout << "GPA: " << fixed << setprecision(2) << *currentNode->getStudent()->getGPA() << endl;
-            currentNode = currentNode->getNext();
-        }
-        cout << endl;
+//Print function - updated 1/31/22 to use recursion
+void PRINT(Node* next) {
+    if (next != NULL) {
+        next->getStudent()->print();
+        PRINT(next->getNext()); //Recursion part2
     }
 }
 
-//Average fucntion, help from Stefan Ene
-void AVERAGE(Node* head, int nodeCount) {
-    Node* current = head;
-    float total = 0;
-    if (head == NULL) { //No nodes in list
-        cout << endl << "Cannot average 0 students GPA\'s, add students first." << endl;
-        return;
+//Average function, help from Jeffrey Teh and Jayden Huang - updated 1/31/22 to use recursion
+void AVERAGE(Node* head, float currentSum, int nodeCount) {
+    if (head != NULL) {
+        currentSum += *(head->getStudent()->getGPA());
+        AVERAGE(head->getNext(), currentSum, nodeCount);
     }
     else {
-        total += *current->getStudent()->getGPA(); //Start with first node/student
-        while (current->getNext() != NULL) { //Keep adding GPAs
-            total += *current->getNext()->getStudent()->getGPA();
-            current = current->getNext();
-        }
+        cout << fixed << setprecision(2) << (float)(currentSum/nodeCount) << endl;
     }
-    cout << endl << "Average GPA: " << fixed << setprecision(2) << (total / nodeCount) << endl;
 }
 
 //Delete function, help from Kyle Zhou and Chris Zou
