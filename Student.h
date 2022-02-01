@@ -16,6 +16,7 @@ public:
 	int* getID();
 	float* getGPA();
 	void setInfo();
+	void print();
 private:
 	char firstName[20];
 	char lastName[20];
