@@ -144,7 +144,7 @@ void ADD(Node* &head, Node* prev, Student* student) {
 void PRINT(Node* next) {
     if (next != NULL) {
         next->getStudent()->print();
-        PRINT(next->getNext()); //Recursion part2
+        PRINT(next->getNext()); //Recursion part
     }
 }
 
@@ -152,7 +152,7 @@ void PRINT(Node* next) {
 void AVERAGE(Node* head, float currentSum, int nodeCount) {
     if (head != NULL) {
         currentSum += *(head->getStudent()->getGPA());
-        AVERAGE(head->getNext(), currentSum, nodeCount);
+        AVERAGE(head->getNext(), currentSum, nodeCount); //Recursion
     }
     else {
         cout << fixed << setprecision(2) << (float)(currentSum/nodeCount) << endl;
