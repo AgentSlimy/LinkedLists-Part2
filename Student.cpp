@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 #include "Student.h"
 
 using namespace std;
@@ -12,7 +13,7 @@ Student::Student() {
 }
 
 Student::~Student() { //Destructor
-	
+
 }
 
 //Getters
@@ -34,4 +35,9 @@ float* Student::getGPA() {
 
 void Student::setInfo() {
 
+}
+
+void Student::print() {
+	cout << "Name: " << getFirstName() << " " << getLastName();
+	cout << " ID: " << ID << " GPA: " << fixed << setprecision(2) << GPA << endl;
 }
